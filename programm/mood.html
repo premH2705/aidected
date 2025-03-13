@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live AI Mood Detection</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            color: #333; /* Dark gray text */
+            position: relative; /* Needed for overlay */
+            overflow: hidden; /* Hide potential scrollbars caused by animations */
+        }
+
+        header {
+            background-color: #1e90ff; /* Dodger blue header */
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        #video-container {
+            border: 5px solid #1e90ff; /* Dodger blue border */
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        #video-element {
+            width: 100%;
+            display: block;
+        }
+
+        #canvas-element {
+            display: none; /* Initially hidden */
+        }
+
+        #mood-display {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #mood-result {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1e90ff; /* Dodger blue result */
+            margin-top: 10px;
+        }
+
+        footer {
+            background-color: #1e90ff; /* Dodger blue footer */
+            color: white;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            margin-top: auto;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        /* Overlay Styles */
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background-color: rgba(255, 255, 255, 0.2);  Slightly transparent white */
+            background-color: rgba(30, 144, 255, 0.15); /* Slightly transparent blue */
+            backdrop-filter: blur(5px); /* Add blur effect */
+            -webkit-backdrop-filter: blur(5px); /* For Safari */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #1e90ff; /* Dodger blue text */
+            font-size: 2.5em; /* Larger text */
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        #overlay h2 {
+            margin-bottom: 20px;
+            /* animation: pulse 2s infinite ease-in-out; */
+            animation: slideInDown 1s ease-out; /* Slide in animation for heading */
+        }
+
+        #overlay p {
+            font-size: 1.5em;
+            animation: slideInUp 1s ease-out; /* Slide in animation for paragraph */
+        }
+
+        /* Animated Dots */
+        .dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 6px;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: -0.8s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: -0.6s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-15px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Live AI Mood Detection</h1>
+        <p>By [Your Name/Organization Name]</p>
+    </header>
+
+    <main>
+        <div id="video-container">
+            <video id="video-element" autoplay></video>
+            <canvas id="canvas-element"></canvas>
+            <div id="loading-indicator">Loading...</div>
+        </div>
+
+        <div id="mood-display">
+            <h2>Detected Mood:</h2>
+            <p id="mood-result">Analyzing...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 AI Mood Detection. All rights reserved.</p>
+    </footer>
+
+    
+    <div id="overlay">
+        <h2>Coming Soon</h2>
+        <p>AI Mood Detection</p>
+        <div class="dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    <script>
+        // ... (rest of your JavaScript code) ...
+        // Note: The original JavaScript functionality is kept, but the overlay will prevent it from being seen.
+
+        // Example to remove the overlay after a delay (if you want to show the functionality later)
+        // setTimeout(() => {
+        //     document.getElementById('overlay').style.display = 'none';
+        // }, 5000); // Remove after 5 seconds
+    </script>
+</body>
+</html>
