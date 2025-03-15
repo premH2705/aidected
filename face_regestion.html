@@ -1,5 +1,3 @@
-face_regestion
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +16,20 @@ face_regestion
             overflow-x: hidden;
         }
 
+        /* Prem Patel Heading Styles */
+        .prem-heading {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
         /* Header Styles */
         .header {
             background: linear-gradient(to right, #3498db, #2980b9);
@@ -29,12 +41,27 @@ face_regestion
             align-items: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: sticky;
-            top: 0;
+            top: 80px; /* Adjusted to account for the Prem Patel heading */
             z-index: 1000;
         }
 
         .header span {
             font-weight: bold;
+        }
+
+        .header .about-button {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header .about-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
         }
 
         /* Main Content Styles */
@@ -66,20 +93,20 @@ face_regestion
             max-width: 400px;
             height: auto;
             aspect-ratio: 4/3;
-            border: 8px solid #3498db; /* Increased border size */
+            border: 8px solid #3498db;
             border-radius: 15px;
             margin: 30px auto;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             position: relative;
-            animation: slideIn 1.5s ease-in-out, colorChange 3s infinite;
+            animation: slideIn 1.5s ease-in-out;
         }
 
         video {
             width: 100%;
             height: 100%;
             border-radius: 10px;
-            transform: scaleX(-1); /* Mirror the video */
+            transform: scaleX(-1);
         }
 
         /* Face Shape Detection Result Styles */
@@ -106,43 +133,62 @@ face_regestion
             box-shadow: 0 0 8px rgba(41, 128, 185, 0.6);
         }
 
-        /* Disclaimer Button Styles */
-        .disclaimer-button {
-            margin-top: 25px;
-            padding: 12px 24px;
-            font-size: 18px;
+        /* About Section Styles */
+        .about-section {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            animation: fadeIn 0.5s ease-in-out;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .about-section h2 {
+            font-size: 28px;
+            color: #3498db;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-section p {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .about-section button {
             background-color: #3498db;
             color: white;
             border: none;
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
         }
 
-        .disclaimer-button:hover {
+        .about-section button:hover {
             background-color: #2980b9;
-            transform: scale(1.05);
         }
 
-        /* Terms and Conditions Styles */
-        .terms {
-            margin-top: 40px;
-            font-size: 14px;
-            color: #7f8c8d;
-            padding: 15px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 3.5s ease-in-out;
-        }
-
-        .terms ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .terms ul li {
-            margin: 10px 0;
+        /* Overlay for About Section */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
         }
 
         /* Footer Styles */
@@ -157,6 +203,21 @@ face_regestion
             z-index: 1000;
         }
 
+        /* Website by Prem Patel */
+        .website-by {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            color: #2c3e50;
+            z-index: 1000;
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -166,15 +227,6 @@ face_regestion
         @keyframes slideIn {
             from { transform: translateY(-50px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Add this new keyframes rule for Siri-like color change */
-        @keyframes colorChange {
-            0% { border-color: #3498db; }
-            25% { border-color: #e74c3c; }
-            50% { border-color: #2ecc71; }
-            75% { border-color: #9b59b6; }
-            100% { border-color: #3498db; }
         }
 
         /* Responsive Design */
@@ -195,13 +247,16 @@ face_regestion
                 width: 100%;
             }
 
-            .disclaimer-button {
-                width: 100%;
-                padding: 12px;
+            .about-section {
+                padding: 20px;
             }
 
-            .terms {
-                font-size: 12px;
+            .about-section h2 {
+                font-size: 24px;
+            }
+
+            .about-section p {
+                font-size: 14px;
             }
         }
     </style>
@@ -212,11 +267,16 @@ face_regestion
 </head>
 <body>
 
+    <!-- Prem Patel Heading -->
+    <div class="prem-heading">Prem Patel</div>
+
+    <!-- Header -->
     <div class="header">
         <span>AI Face Shape Detection</span>
-        <span>By Prem Patel</span>
+        <button class="about-button" onclick="showAbout()">About</button>
     </div>
 
+    <!-- Main Content -->
     <div class="container">
         <h1 class="title">Live AI Face Shape Detection</h1>
         <p class="subtitle">Come closer to the camera for accurate results</p>
@@ -229,31 +289,41 @@ face_regestion
             <label for="faceType">Detected Face Shape:</label>
             <input type="text" id="faceType" readonly>
         </div>
-
-        <button class="disclaimer-button" onclick="showDisclaimer()">Beta Version Disclaimer</button>
-
-        <div class="terms">
-            <p>Terms and Conditions:</p>
-            <ul>
-                <li>This is a beta version of the AI Face Shape Detection tool.</li>
-                <li>Results may not be 100% accurate and are for informational purposes only.</li>
-                <li>Please ensure proper lighting and come closer to the camera for better results.</li>
-                <li>By using this tool, you agree to our terms and conditions.</li>
-            </ul>
-        </div>
     </div>
 
+    <!-- Website by Prem Patel -->
+    <div class="website-by">Website by Prem Patel</div>
+
+    <!-- Footer -->
     <div class="footer">
         <p>© 2023 AI Face Shape Detection. All rights reserved.</p>
+    </div>
+
+    <!-- About Section -->
+    <div class="overlay" id="overlay"></div>
+    <div class="about-section" id="aboutSection">
+        <h2>About</h2>
+        <p>This AI Face Shape Detection tool is designed to provide insights into your face shape using advanced AI technology.</p>
+        <p>Please note that the results may not be 100% accurate and are intended for informational purposes only.</p>
+        <p>For best results, ensure proper lighting and come closer to the camera.</p>
+        <button onclick="hideAbout()">Close</button>
     </div>
 
     <script>
         let faceMesh;
         const video = document.getElementById('webcam');
         const faceTypeInput = document.getElementById('faceType');
+        const overlay = document.getElementById('overlay');
+        const aboutSection = document.getElementById('aboutSection');
 
-        function showDisclaimer() {
-            alert("This is a beta version of the AI Face Shape Detection tool. Results may not be 100% accurate.");
+        function showAbout() {
+            overlay.style.display = 'block';
+            aboutSection.style.display = 'block';
+        }
+
+        function hideAbout() {
+            overlay.style.display = 'none';
+            aboutSection.style.display = 'none';
         }
 
         async function startWebcam() {
@@ -327,7 +397,7 @@ face_regestion
                 "Oblong": "#f1c40f",
                 "Unknown": "#95a5a6"
             };
-            faceTypeInput.style.backgroundColor = colors[shape] || "#95a5a6";
+            document.body.style.backgroundColor = colors[shape] || "#f5f7fa";
         }
 
         async function run() {

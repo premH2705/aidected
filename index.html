@@ -13,23 +13,30 @@
         background-color: #f4f4f9;
         color: #333;
         line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    /* Background Animation */
+    @keyframes gradientBackground {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
     header {
-        background-color: white;
-        color: #333;
+        background-color: #4a90e2; /* Blue background for title */
+        color: white; /* White text for title */
         padding: 15px 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 2px solid #4a90e2;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     header .logo {
         font-size: 1.8rem;
         font-weight: bold;
-        color: #4a90e2;
+        color: white; /* White text for logo */
     }
 
     header nav {
@@ -39,14 +46,14 @@
     }
 
     header nav a {
-        color: #333;
+        color: white; /* White text for nav links */
         text-decoration: none;
         font-weight: 600;
         transition: color 0.3s ease;
     }
 
     header nav a:hover {
-        color: #4a90e2;
+        color: #ff6f61; /* Hover color for nav links */
     }
 
     .hero {
@@ -54,6 +61,8 @@
         padding: 80px 20px;
         background: linear-gradient(135deg, #4a90e2, #6fa8dc);
         color: white;
+        animation: gradientBackground 10s ease infinite;
+        background-size: 200% 200%;
     }
 
     .hero h1 {
@@ -84,6 +93,27 @@
         cursor: pointer;
         transition: all 0.3s ease;
         font-weight: 600;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        border-radius: 30px;
+        box-sizing: border-box;
+        animation: borderColorChange 2s infinite;
+    }
+
+    @keyframes borderColorChange {
+        0% { border-color: #4a90e2; }
+        50% { border-color: #ff6f61; }
+        100% { border-color: #4a90e2; }
     }
 
     .hero button:hover {
@@ -91,6 +121,20 @@
         color: white;
         transform: translateY(-5px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Bigger and Cooler "Rated 5 stars by users" */
+    .hero .rating {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #ffd700; /* Gold color for stars */
+        margin-top: 20px;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
     }
 
     .features {
@@ -127,6 +171,7 @@
         color: #666;
     }
 
+    /* Redesigned Testimonials Section */
     .testimonials {
         padding: 50px 20px;
         background-color: #f4f4f9;
@@ -144,18 +189,20 @@
         padding: 25px;
         margin: 20px auto;
         max-width: 600px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .testimonial:hover {
-        transform: translateY(-5px);
+        transform: translateY(-10px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
     .testimonial p {
         font-size: 1rem;
         color: #333;
+        font-style: italic;
     }
 
     .testimonial .author {
@@ -265,7 +312,7 @@
       <button class="face-reg-button" onclick="window.location.href='face_regestion.html'">Face Registration</button>
       <button class="mood-det-button" onclick="window.location.href='mood.html'">Mood Detection</button>
     </div>
-    <p>Rated 5 stars by users</p>
+    <p class="rating">⭐️⭐️⭐️⭐️⭐️ Rated 5 stars by users</p>
   </section>
 
   <!-- Features Section -->
@@ -275,12 +322,12 @@
       <p>Accurately detect your face shape using AI.</p>
     </div>
     <div class="feature">
-      <h2>Add Face</h2>
-      <p>Upload or use your camera to add a face for analysis.</p>
+      <h2>Mood detection</h2>
+      <p>it dected the human mood.</p>
     </div>
     <div class="feature">
       <h2>About</h2>
-      <p>Learn more about our technology and team.</p>
+      <p>Learn more about our technology .</p>
     </div>
   </section>
 
@@ -293,7 +340,7 @@
     </div>
     <div class="testimonial">
       <p>This app accurately detected my face shape and provided great insights!</p>
-      <p class="author">prem, ahemedabad</p>
+      <p class="author">Prem, Ahmedabad</p>
     </div>
   </section>
 
