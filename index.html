@@ -14,6 +14,7 @@
         color: #333;
         line-height: 1.6;
         overflow-x: hidden;
+        animation: fadeIn 1s ease-in-out; /* Fade-in animation for the whole page */
     }
 
     /* Background Animation */
@@ -23,32 +24,35 @@
         100% { background-position: 0% 50%; }
     }
 
+    /* Header Styles */
     header {
-        background-color: #4a90e2; /* Blue background for title */
-        color: white; /* White text for title */
-        padding: 15px 20px;
+        background-color: white; /* White background for header */
+        color: #4a90e2; /* Blue text for header */
+        padding: 20px 30px; /* Increased padding */
         display: flex;
         justify-content: space-between;
         align-items: center;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        animation: slideIn 1s ease-in-out; /* Slide-in animation for header */
     }
 
     header .logo {
-        font-size: 1.8rem;
+        font-size: 2.5rem; /* Increased font size */
         font-weight: bold;
-        color: white; /* White text for logo */
+        color: #4a90e2; /* Blue text for logo */
     }
 
     header nav {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
+        gap: 30px; /* Increased gap */
     }
 
     header nav a {
-        color: white; /* White text for nav links */
+        color: #4a90e2; /* Blue text for nav links */
         text-decoration: none;
         font-weight: 600;
+        font-size: 1.4rem; /* Increased font size */
         transition: color 0.3s ease;
     }
 
@@ -56,6 +60,30 @@
         color: #ff6f61; /* Hover color for nav links */
     }
 
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes pop {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+
+    @keyframes buttonClick {
+        0% { transform: scale(1); }
+        50% { transform: scale(0.95); }
+        100% { transform: scale(1); }
+    }
+
+    /* Hero Section */
     .hero {
         text-align: center;
         padding: 80px 20px;
@@ -84,8 +112,8 @@
     }
 
     .hero button {
-        padding: 12px 30px;
-        font-size: 1rem;
+        padding: 15px 35px; /* Increased button size */
+        font-size: 1.1rem; /* Increased font size */
         color: #4a90e2;
         background-color: white;
         border: 2px solid transparent;
@@ -137,6 +165,7 @@
         50% { transform: translateY(-10px); }
     }
 
+    /* Features Section */
     .features {
         display: flex;
         flex-wrap: wrap;
@@ -171,7 +200,7 @@
         color: #666;
     }
 
-    /* Redesigned Testimonials Section */
+    /* Testimonials Section */
     .testimonials {
         padding: 50px 20px;
         background-color: #f4f4f9;
@@ -211,6 +240,7 @@
         color: #4a90e2;
     }
 
+    /* Footer */
     footer {
         background-color: #333;
         color: white;
@@ -228,7 +258,7 @@
         text-decoration: underline;
     }
 
-    /* Mobile Responsive Styles */
+    /* Responsive Design */
     @media (max-width: 768px) {
         header {
             flex-direction: column;
@@ -236,17 +266,31 @@
             padding: 10px;
         }
 
+        header .logo {
+            font-size: 2rem; /* Adjusted font size for mobile */
+        }
+
         header nav {
             justify-content: center;
             margin-top: 10px;
+            gap: 15px; /* Adjusted gap for mobile */
+        }
+
+        header nav a {
+            font-size: 1.2rem; /* Adjusted font size for mobile */
         }
 
         .hero h1 {
-            font-size: 2.2rem;
+            font-size: 2.2rem; /* Adjusted font size for mobile */
         }
 
         .hero p {
-            font-size: 1rem;
+            font-size: 1rem; /* Adjusted font size for mobile */
+        }
+
+        .hero button {
+            font-size: 1rem; /* Adjusted font size for mobile */
+            padding: 12px 25px; /* Adjusted padding for mobile */
         }
 
         .features {
@@ -259,7 +303,7 @@
         }
 
         .testimonials h2 {
-            font-size: 1.8rem;
+            font-size: 1.8rem; /* Adjusted font size for mobile */
         }
 
         .testimonial {
@@ -269,25 +313,33 @@
     }
 
     @media (max-width: 480px) {
+        header .logo {
+            font-size: 1.8rem; /* Adjusted font size for smaller mobile screens */
+        }
+
+        header nav a {
+            font-size: 1rem; /* Adjusted font size for smaller mobile screens */
+        }
+
         .hero h1 {
-            font-size: 1.8rem;
+            font-size: 1.8rem; /* Adjusted font size for smaller mobile screens */
         }
 
         .hero p {
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* Adjusted font size for smaller mobile screens */
         }
 
         .hero button {
-            font-size: 0.9rem;
-            padding: 10px 20px;
+            font-size: 0.9rem; /* Adjusted font size for smaller mobile screens */
+            padding: 10px 20px; /* Adjusted padding for smaller mobile screens */
         }
 
         .testimonials h2 {
-            font-size: 1.5rem;
+            font-size: 1.5rem; /* Adjusted font size for smaller mobile screens */
         }
 
         .testimonial p {
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* Adjusted font size for smaller mobile screens */
         }
     }
   </style>
@@ -310,7 +362,7 @@
     <p>With our advanced AI technology for personalized beauty insights.</p>
     <div class="buttons">
       <button class="face-reg-button" onclick="window.location.href='face_regestion.html'">Face Registration</button>
-      <button class="mood-det-button" onclick="window.location.href='mood.html'">Mood Detection</button>
+      <button class="mood-det-button" onclick="window.location.href='look.html'">Look Max</button> <!-- Updated button name and link -->
     </div>
     <p class="rating">⭐️⭐️⭐️⭐️⭐️ Rated 5 stars by users</p>
   </section>
@@ -322,7 +374,7 @@
       <p>Accurately detect your face shape using AI.</p>
     </div>
     <div class="feature">
-      <h2>Mood detection</h2>
+      <h2>Mood </h2>
       <p>it dected the human mood.</p>
     </div>
     <div class="feature">
@@ -347,6 +399,6 @@
   <!-- Footer -->
   <footer>
     <p>&copy; 2025 Face Shape Detection. All rights reserved. | <a href="#privacy">Privacy Policy</a></p>
-  </footer>
+  </footer> 
 </body>
 </html>
