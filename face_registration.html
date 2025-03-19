@@ -9,17 +9,18 @@
         body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
-            background-color: #f5f7fa;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             margin: 0;
             padding: 0;
-            color: #2c3e50;
+            color: white;
             overflow-x: hidden;
-            animation: zoomIn 1s ease-in-out;
+            animation: fadeIn 1s ease-in-out;
         }
 
         /* Header Styles */
         .header {
-            background: linear-gradient(to right, #3498db, #2980b9);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             color: white;
             padding: 20px;
             font-size: 20px;
@@ -41,13 +42,13 @@
             border: 2px solid white;
             color: white;
             padding: 8px 16px;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .header .about-button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.2);
             transform: scale(1.05);
         }
 
@@ -62,8 +63,8 @@
             font-size: 42px;
             font-weight: bold;
             margin-top: 30px;
-            color: #2c3e50;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             animation: fadeIn 2s ease-in-out;
         }
 
@@ -88,11 +89,11 @@
             max-width: 400px;
             height: auto;
             aspect-ratio: 4/3;
-            border: 8px solid #3498db;
-            border-radius: 15px;
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
             margin: 30px auto;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             position: relative;
             animation: slideIn 1.5s ease-in-out;
         }
@@ -100,7 +101,7 @@
         video {
             width: 100%;
             height: 100%;
-            border-radius: 10px;
+            border-radius: 15px;
             transform: scaleX(-1);
         }
 
@@ -109,112 +110,37 @@
             margin-top: 25px;
             font-size: 24px;
             animation: fadeIn 3s ease-in-out;
-            background-color: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             max-width: 400px;
             margin: 20px auto;
+        }
+
+        .face-type label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
         .face-type input {
             font-size: 20px;
             padding: 12px;
-            border: 2px solid #3498db;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             width: 100%;
             border-radius: 10px;
-            background-color: white;
-            color: #2c3e50;
+            background: transparent;
+            color: white;
             text-align: center;
             transition: all 0.3s ease;
             margin-top: 10px;
         }
 
         .face-type input:focus {
-            border-color: #2980b9;
-            box-shadow: 0 0 8px rgba(41, 128, 185, 0.6);
-        }
-
-        /* Buttons */
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .buttons button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .buttons button:hover {
-            background-color: #2980b9;
-            transform: scale(1.05);
-        }
-
-        /* About Section Styles */
-        .about-section {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1001;
-            animation: fadeIn 0.5s ease-in-out;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .about-section h2 {
-            font-size: 28px;
-            color: #3498db;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .about-section p {
-            font-size: 16px;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .about-section button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 16px;
-        }
-
-        .about-section button:hover {
-            background-color: #2980b9;
-        }
-
-        /* Overlay for About Section */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
         }
 
         /* Footer Styles */
@@ -222,7 +148,8 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-            background: linear-gradient(to right, #3498db, #2980b9);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             color: white;
             padding: 15px;
             font-size: 16px;
@@ -268,12 +195,6 @@
             100% { transform: scale(1); }
         }
 
-        @keyframes buttonClick {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-            100% { transform: scale(1); }
-        }
-
         @keyframes zoomIn {
             from { transform: scale(0.9); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -300,18 +221,6 @@
 
             .face-type input {
                 width: 100%;
-            }
-
-            .about-section {
-                padding: 20px;
-            }
-
-            .about-section h2 {
-                font-size: 24px;
-            }
-
-            .about-section p {
-                font-size: 14px;
             }
 
             .footer {
@@ -348,11 +257,6 @@
             <label for="faceType">Detected Face Shape:</label>
             <input type="text" id="faceType" readonly>
         </div>
-
-        <div class="buttons">
-            <button onclick="retakeDetection()">Retake</button>
-            <button onclick="saveResults()">Save Results</button>
-        </div>
     </div>
 
     <!-- Footer -->
@@ -364,49 +268,12 @@
         </div>
     </div>
 
-    <!-- About Section -->
-    <div class="overlay" id="overlay"></div>
-    <div class="about-section" id="aboutSection">
-        <h2>About</h2>
-        <p>This AI Face Shape Detection tool is designed to provide insights into your face shape using advanced AI technology.</p>
-        <p>Please note that the results may not be 100% accurate and are intended for informational purposes only.</p>
-        <p>For best results, ensure proper lighting and come closer to the camera.</p>
-        <button onclick="hideAbout()">Close</button>
-    </div>
-
     <script>
         let faceMesh;
         const video = document.getElementById('webcam');
         const faceTypeInput = document.getElementById('faceType');
-        const overlay = document.getElementById('overlay');
-        const aboutSection = document.getElementById('aboutSection');
         const subtitle = document.getElementById('subtitle');
         const webcamBox = document.getElementById('webcamBox');
-
-        function showAbout() {
-            overlay.style.display = 'block';
-            aboutSection.style.display = 'block';
-            aboutSection.style.animation = 'pop 0.3s ease-in-out';
-        }
-
-        function hideAbout() {
-            overlay.style.display = 'none';
-            aboutSection.style.display = 'none';
-        }
-
-        function retakeDetection() {
-            faceTypeInput.value = "";
-            applyColor("#f5f7fa");
-        }
-
-        function saveResults() {
-            const faceShape = faceTypeInput.value;
-            if (faceShape) {
-                alert(`Your face shape (${faceShape}) has been saved!`);
-            } else {
-                alert("No face shape detected yet.");
-            }
-        }
 
         async function startWebcam() {
             try {
@@ -482,15 +349,7 @@
             };
             const color = colors[shape] || "#f5f7fa";
             webcamBox.style.borderColor = color;
-            subtitle.style.color = getContrastColor(color);
-        }
-
-        function getContrastColor(hexColor) {
-            const r = parseInt(hexColor.slice(1, 3), 16);
-            const g = parseInt(hexColor.slice(3, 5), 16);
-            const b = parseInt(hexColor.slice(5, 7), 16);
-            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-            return brightness > 128 ? "#2c3e50" : "#ffffff";
+            subtitle.style.color = color;
         }
 
         async function run() {
@@ -500,14 +359,6 @@
         }
 
         run();
-
-        // Button click animation
-        document.querySelector('.about-button').addEventListener('click', () => {
-            document.querySelector('.about-button').style.animation = 'buttonClick 0.3s ease';
-            setTimeout(() => {
-                document.querySelector('.about-button').style.animation = '';
-            }, 300);
-        });
     </script>
 
 </body>
