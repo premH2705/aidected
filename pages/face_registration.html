@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Registration - Face Shape Detection</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- MediaPipe Face Mesh -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        header {
+            background: linear-gradient(135deg, #4a90e2, #6fa8dc);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        header .logo {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-left: 20px;
+            transition: color 0.3s ease;
+        }
+        header nav a:hover {
+            color: #ff6f61;
+        }
+        header nav a.active {
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            text-align: center;
+            padding: 50px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .container h1 {
+            font-size: 2.5rem;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        .container p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .camera-box {
+            width: 100%;
+            max-width: 300px; /* Smaller camera output */
+            height: 225px; /* Adjusted height to maintain aspect ratio (4:3) */
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 0 auto 20px;
+            border: 8px solid rgba(255, 255, 255, 0.3);
+        }
+        .camera-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1); /* Mirror the video like a selfie */
+        }
+
+        /* Output Section */
+        .output-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .output-section h3 {
+            font-size: 1.5rem;
+            color: #4a90e2;
+            margin-bottom: 15px;
+        }
+        .output-section .face-shape {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .output-section .details {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        .output-section .details span {
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        /* Popup */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            animation: fadeIn 0.5s;
+        }
+        .popup h2 {
+            margin: 0;
+            font-size: 2rem;
+            color: #4a90e2;
+        }
+        .popup p {
+            font-size: 1.1rem;
+            margin: 10px 0 20px;
+            color: #ddd;
+        }
+        .popup button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            background-color: #4a90e2;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .popup button:hover {
+            background-color: #ff6f61;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        footer a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container h1 {
+                font-size: 2rem;
+            }
+            .container p {
+                font-size: 1rem;
+            }
+            .camera-box {
+                max-width: 250px;
+                height: 187.5px;
+            }
+            .output-section h3 {
+                font-size: 1.3rem;
+            }
+            .output-section .face-shape {
+                font-size: 1.1rem;
+            }
+            .output-section .details {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Face Shape Detection</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="face_registration.html" class="active">Face Registration</a>
+            <a href="look_max.html">Beauty Analyzer</a>
+        </nav>
+    </header>
+
+    <div class="popup" id="popup">
+        <h2>Welcome to Face Registration</h2>
+        <p>Beta version: Detects and registers your face shape using AI.</p>
+        <button onclick="startScanning()">Start Scanning</button>
+    </div>
+
+    <div class="container" id="container" style="display: none;">
+        <h1>Face Registration</h1>
+        <p>Register your face shape with advanced AI detection.</p>
+        <div class="camera-box">
+            <video id="camera-feed" class="camera-feed" autoplay></video>
+        </div>
+        <div class="output-section" id="output-section">
+            <h3>Detected Face Shape</h3>
+            <div class="face-shape" id="face-shape">Analyzing...</div>
+            <div class="details" id="details">
+                <p>Forehead Width: <span id="forehead-width">N/A</span></p>
+                <p>Cheekbone Width: <span id="cheekbone-width">N/A</span></p>
+                <p>Jaw Width: <span id="jaw-width">N/A</span></p>
+                <p>Face Height: <span id="face-height">N/A</span></p>
+                <p>Aspect Ratio: <span id="aspect-ratio">N/A</span></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Face Shape Detection. All rights reserved. | <a href="index.html#privacy">Privacy Policy</a></p>
+    </footer>
+
+    <script>
+        let faceMesh;
+        const video = document.getElementById('camera-feed');
+        const faceShapeOutput = document.getElementById('face-shape');
+        const foreheadWidthOutput = document.getElementById('forehead-width');
+        const cheekboneWidthOutput = document.getElementById('cheekbone-width');
+        const jawWidthOutput = document.getElementById('jaw-width');
+        const faceHeightOutput = document.getElementById('face-height');
+        const aspectRatioOutput = document.getElementById('aspect-ratio');
+        const cameraBox = document.querySelector('.camera-box');
+
+        async function startScanning() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('container').style.display = 'block';
+            await startCamera();
+            await loadFaceMesh();
+            detectFace();
+        }
+
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                video.srcObject = stream;
+                return new Promise(resolve => {
+                    video.onloadedmetadata = () => {
+                        resolve();
+                    };
+                });
+            } catch (error) {
+                console.error("Error accessing camera:", error);
+                alert("Unable to access the camera. Please ensure it’s enabled.");
+            }
+        }
+
+        async function loadFaceMesh() {
+            faceMesh = new FaceMesh({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}` });
+            faceMesh.setOptions({
+                maxNumFaces: 1,
+                refineLandmarks: true,
+                minDetectionConfidence: 0.9,
+                minTrackingConfidence: 0.9
+            });
+            faceMesh.onResults(processResults);
+        }
+
+        async function detectFace() {
+            if (!faceMesh) return;
+            await faceMesh.send({ image: video });
+            requestAnimationFrame(detectFace);
+        }
+
+        function processResults(results) {
+            if (!results.multiFaceLandmarks || results.multiFaceLandmarks.length === 0) {
+                faceShapeOutput.textContent = "No face detected";
+                applyColor("Unknown");
+                updateDetails({ foreheadWidth: "N/A", cheekboneWidth: "N/A", jawWidth: "N/A", faceHeight: "N/A", aspectRatio: "N/A" });
+                return;
+            }
+
+            const { faceShape, measurements } = classifyFaceShape(results.multiFaceLandmarks[0]);
+            faceShapeOutput.textContent = faceShape;
+            applyColor(faceShape);
+            updateDetails(measurements);
+        }
+
+        function classifyFaceShape(landmarks) {
+            // Measurements in normalized coordinates (0 to 1)
+            const foreheadWidth = Math.abs(landmarks[10].x - landmarks[338].x);
+            const cheekboneWidth = Math.abs(landmarks[234].x - landmarks[454].x);
+            const jawWidth = Math.abs(landmarks[152].x - landmarks[175].x);
+            const faceHeight = Math.abs(landmarks[10].y - landmarks[152].y);
+            const aspectRatio = cheekboneWidth / faceHeight;
+
+            // Convert to approximate pixel values (assuming video resolution)
+            const videoWidth = video.videoWidth || 640;
+            const videoHeight = video.videoHeight || 480;
+            const foreheadWidthPx = (foreheadWidth * videoWidth).toFixed(2);
+            const cheekboneWidthPx = (cheekboneWidth * videoWidth).toFixed(2);
+            const jawWidthPx = (jawWidth * videoWidth).toFixed(2);
+            const faceHeightPx = (faceHeight * videoHeight).toFixed(2);
+
+            // Face shape classification logic
+            let faceShape = "Unknown";
+            if (aspectRatio > 1.4) faceShape = "Oval";
+            else if (jawWidth > cheekboneWidth * 1.15) faceShape = "Square";
+            else if (cheekboneWidth > foreheadWidth * 1.3) faceShape = "Heart";
+            else if (aspectRatio < 0.95) faceShape = "Round";
+            else if (faceHeight > foreheadWidth * 1.5) faceShape = "Oblong";
+            else if (jawWidth > cheekboneWidth && cheekboneWidth > foreheadWidth) faceShape = "Diamond";
+            else if (jawWidth > foreheadWidth * 1.2) faceShape = "Pear";
+
+            return {
+                faceShape,
+                measurements: {
+                    foreheadWidth: `${foreheadWidthPx}px`,
+                    cheekboneWidth: `${cheekboneWidthPx}px`,
+                    jawWidth: `${jawWidthPx}px`,
+                    faceHeight: `${faceHeightPx}px`,
+                    aspectRatio: aspectRatio.toFixed(2)
+                }
+            };
+        }
+
+        function applyColor(shape) {
+            const colors = {
+                "Oval": "#3498db",
+                "Round": "#e74c3c",
+                "Square": "#2ecc71",
+                "Diamond": "#9b59b6",
+                "Heart": "#e67e22",
+                "Pear": "#34495e",
+                "Oblong": "#f1c40f",
+                "Unknown": "#95a5a6"
+            };
+            const color = colors[shape] || "#95a5a6";
+            cameraBox.style.borderColor = color;
+            faceShapeOutput.style.color = color;
+        }
+
+        function updateDetails(measurements) {
+            foreheadWidthOutput.textContent = measurements.foreheadWidth;
+            cheekboneWidthOutput.textContent = measurements.cheekboneWidth;
+            jawWidthOutput.textContent = measurements.jawWidth;
+            faceHeightOutput.textContent = measurements.faceHeight;
+            aspectRatioOutput.textContent = measurements.aspectRatio;
+        }
+    </script>
+</body>
+</html>

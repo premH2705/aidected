@@ -25,6 +25,9 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
     header .logo {
@@ -73,11 +76,13 @@
       font-size: 2.8rem;
       margin-bottom: 20px;
       font-weight: 700;
+      animation: fadeIn 1s ease-in-out;
     }
 
     .hero p {
       font-size: 1.2rem;
       margin-bottom: 40px;
+      animation: fadeIn 1.5s ease-in-out;
     }
 
     .hero .buttons {
@@ -97,6 +102,7 @@
       cursor: pointer;
       transition: all 0.3s ease;
       font-weight: 600;
+      animation: pop 0.5s ease-in-out;
     }
 
     .hero button:hover {
@@ -123,11 +129,12 @@
       border-radius: 10px;
       background-color: #f4f4f9;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .feature:hover {
       transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
     .feature h2 {
@@ -187,6 +194,9 @@
       color: white;
       text-align: center;
       padding: 20px;
+      position: relative;
+      bottom: 0;
+      width: 100%;
     }
 
     footer a {
@@ -212,6 +222,22 @@
 
     .social-media a:hover {
       color: #4a90e2;
+    }
+
+    .website-by {
+      font-size: 0.9rem;
+      margin-top: 10px;
+      color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .website-by img {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
     }
 
     /* Modal Styles */
@@ -267,6 +293,18 @@
       line-height: 1.6;
     }
 
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       header {
@@ -277,6 +315,7 @@
 
       header nav {
         gap: 15px;
+        flex-wrap: wrap;
       }
 
       .hero h1 {
@@ -329,6 +368,8 @@
     <nav>
       <a href="#home" class="active">Home</a>
       <a href="#detection">Face Detection</a>
+      <a href="face_registration.html">Face Registration</a>
+      <a href="look_max.html">Beauty Analyzer</a>
       <a href="#feedback">User Feedback</a>
       <a href="#about" id="aboutLink">About</a>
       <a href="#contact">Contact</a>
@@ -341,8 +382,8 @@
     <h1>Discover Your Unique Face Shape</h1>
     <p>With our advanced AI technology for personalized beauty insights.</p>
     <div class="buttons">
-      <button onclick="window.location.href='face_registration.html'">Face Registration</button>
-      <button onclick="window.location.href='look_max.html'">Look Max</button>
+      <button onclick="window.location.href='pages/face_registration.html'">Face Registration</button>
+      <button onclick="window.location.href='pages/look_max.html'">Beauty Analyzer</button>
     </div>
   </section>
 
@@ -353,8 +394,12 @@
       <p>Accurately detect your face shape using AI.</p>
     </div>
     <div class="feature">
-      <h2>Mood Detection</h2>
-      <p>Detect the human mood with advanced algorithms.</p>
+      <h2>Face Registration</h2>
+      <p>Register your face shape with advanced AI detection.</p>
+    </div>
+    <div class="feature">
+      <h2>Beauty Analyzer</h2>
+      <p>Analyze your beauty score with AI technology.</p>
     </div>
     <div class="feature">
       <h2>About</h2>
@@ -383,7 +428,11 @@
       <a href="https://www.twitter.com" target="_blank">Twitter</a>
     </div>
     <p>Customer Care: <a href="mailto:support@faceshapedetection.com">support@faceshapedetection.com</a></p>
-    <p>&copy; 2025 Face Shape Detection. All rights reserved. | <a href="#privacy" id="privacyLinkFooter">Privacy Policy</a></p>
+    <p>© 2025 Face Shape Detection. All rights reserved. | <a href="#privacy" id="privacyLinkFooter">Privacy Policy</a></p>
+    <div class="website-by">
+      <img src="https://via.placeholder.com/20" alt="Logo">
+      Website by Prem Patel
+    </div>
   </footer>
 
   <!-- Privacy Policy Modal -->
@@ -391,7 +440,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2>Privacy Policy</h2>
-        <span class="close" onclick="closeModal('privacyModal')">&times;</span>
+        <span class="close" onclick="closeModal('privacyModal')">×</span>
       </div>
       <div class="modal-body">
         <p>Welcome to our website! This platform is created by a student and is for informational and entertainment purposes only. Please note that the results provided by our beauty detection and face recognition system are not 100% accurate and should not be considered an official or professional evaluation.</p>
@@ -407,7 +456,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2>About</h2>
-        <span class="close" onclick="closeModal('aboutModal')">&times;</span>
+        <span class="close" onclick="closeModal('aboutModal')">×</span>
       </div>
       <div class="modal-body">
         <p>This website is created by a second-year college student passionate about AI and technology. The beauty detection and face recognition system is a fun project designed for educational and experimental purposes.</p>
