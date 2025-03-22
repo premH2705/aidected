@@ -2,199 +2,167 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Face Registration - Face Shape Detection</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- MediaPipe Face Mesh -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
     <style>
-        /* General Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            background: linear-gradient(to bottom, #f0f4f8, #e2e8f0);
+            color: #2d3748;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Navigation Bar */
         header {
-            background: linear-gradient(135deg, #4a90e2, #6fa8dc);
+            background: linear-gradient(135deg, #2b6cb0, #4299e1);
             color: white;
-            padding: 20px 30px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10;
         }
-        header .logo {
-            font-size: 2rem;
-            font-weight: bold;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
         }
-        header nav a {
+        nav a {
             color: white;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-left: 20px;
-            transition: color 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-left: 15px;
+            transition: all 0.3s ease;
         }
-        header nav a:hover {
-            color: #ff6f61;
+        nav a:hover {
+            color: #fed7d7;
         }
-        header nav a.active {
-            text-decoration: underline;
+        nav a.active {
+            border-bottom: 2px solid #fed7d7;
         }
 
-        /* Container */
         .container {
             text-align: center;
-            padding: 50px 20px;
-            max-width: 600px;
+            padding: 80px 15px 50px;
+            max-width: 100%;
             margin: 0 auto;
         }
         .container h1 {
-            font-size: 2.5rem;
-            color: #4a90e2;
+            font-size: 2rem;
+            color: #2b6cb0;
             margin-bottom: 10px;
         }
         .container p {
-            font-size: 1.2rem;
-            color: #666;
+            font-size: 1rem;
+            color: #4a5568;
             margin-bottom: 20px;
         }
         .camera-box {
-            width: 100%;
-            max-width: 300px; /* Smaller camera output */
-            height: 225px; /* Adjusted height to maintain aspect ratio (4:3) */
+            width: 90%;
+            max-width: 320px;
+            height: 240px;
             background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
             overflow: hidden;
-            margin: 0 auto 20px;
-            border: 8px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 25px;
+            border: 6px solid rgba(255, 255, 255, 0.9);
+            position: relative;
         }
         .camera-feed {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: scaleX(-1); /* Mirror the video like a selfie */
+            transform: scaleX(-1);
         }
 
-        /* Output Section */
         .output-section {
-            background-color: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin: 0 15px;
+            backdrop-filter: blur(5px);
         }
         .output-section h3 {
-            font-size: 1.5rem;
-            color: #4a90e2;
+            font-size: 1.4rem;
+            color: #2b6cb0;
             margin-bottom: 15px;
         }
-        .output-section .face-shape {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
+        .face-shape {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            transition: color 0.3s ease;
         }
-        .output-section .details {
-            font-size: 1rem;
-            color: #666;
-            line-height: 1.5;
+        .details {
+            font-size: 0.9rem;
+            color: #4a5568;
         }
-        .output-section .details span {
-            font-weight: bold;
-            color: #4a90e2;
+        .details p {
+            margin: 8px 0;
         }
-
-        /* Popup */
-        .popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            color: white;
-            animation: fadeIn 0.5s;
-        }
-        .popup h2 {
-            margin: 0;
-            font-size: 2rem;
-            color: #4a90e2;
-        }
-        .popup p {
-            font-size: 1.1rem;
-            margin: 10px 0 20px;
-            color: #ddd;
-        }
-        .popup button {
-            padding: 12px 24px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 25px;
-            background-color: #4a90e2;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .popup button:hover {
-            background-color: #ff6f61;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .details span {
+            font-weight: 600;
+            color: #2b6cb0;
         }
 
-        /* Footer */
         footer {
-            background-color: #333;
-            color: white;
+            background: #2d3748;
+            color: #e2e8f0;
             text-align: center;
-            padding: 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            padding: 15px;
+            font-size: 0.8rem;
         }
         footer a {
-            color: #4a90e2;
+            color: #63b3ed;
             text-decoration: none;
         }
         footer a:hover {
             text-decoration: underline;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .logo {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+            nav a {
+                margin: 0 10px 0 0;
+                font-size: 0.8rem;
+            }
             .container h1 {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
             .container p {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
             .camera-box {
-                max-width: 250px;
-                height: 187.5px;
+                width: 85%;
+                height: 200px;
             }
             .output-section h3 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
-            .output-section .face-shape {
-                font-size: 1.1rem;
+            .face-shape {
+                font-size: 1rem;
             }
-            .output-section .details {
-                font-size: 0.9rem;
+            .details {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -209,17 +177,11 @@
         </nav>
     </header>
 
-    <div class="popup" id="popup">
-        <h2>Welcome to Face Registration</h2>
-        <p>Beta version: Detects and registers your face shape using AI.</p>
-        <button onclick="startScanning()">Start Scanning</button>
-    </div>
-
-    <div class="container" id="container" style="display: none;">
+    <div class="container">
         <h1>Face Registration</h1>
-        <p>Register your face shape with advanced AI detection.</p>
+        <p>Detect your face shape with AI technology</p>
         <div class="camera-box">
-            <video id="camera-feed" class="camera-feed" autoplay></video>
+            <video id="camera-feed" class="camera-feed" autoplay playsinline></video>
         </div>
         <div class="output-section" id="output-section">
             <h3>Detected Face Shape</h3>
@@ -249,9 +211,7 @@
         const aspectRatioOutput = document.getElementById('aspect-ratio');
         const cameraBox = document.querySelector('.camera-box');
 
-        async function startScanning() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('container').style.display = 'block';
+        async function initialize() {
             await startCamera();
             await loadFaceMesh();
             detectFace();
@@ -259,32 +219,41 @@
 
         async function startCamera() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: "user",
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    } 
+                });
                 video.srcObject = stream;
                 return new Promise(resolve => {
                     video.onloadedmetadata = () => {
+                        video.play();
                         resolve();
                     };
                 });
             } catch (error) {
-                console.error("Error accessing camera:", error);
-                alert("Unable to access the camera. Please ensure it’s enabled.");
+                console.error("Camera error:", error);
+                alert("Unable to access camera. Please allow camera permissions.");
             }
         }
 
         async function loadFaceMesh() {
-            faceMesh = new FaceMesh({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}` });
+            faceMesh = new FaceMesh({ 
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}` 
+            });
             faceMesh.setOptions({
                 maxNumFaces: 1,
                 refineLandmarks: true,
-                minDetectionConfidence: 0.9,
-                minTrackingConfidence: 0.9
+                minDetectionConfidence: 0.85,
+                minTrackingConfidence: 0.85
             });
             faceMesh.onResults(processResults);
         }
 
         async function detectFace() {
-            if (!faceMesh) return;
+            if (!faceMesh || !video.readyState === 4) return;
             await faceMesh.send({ image: video });
             requestAnimationFrame(detectFace);
         }
@@ -304,14 +273,12 @@
         }
 
         function classifyFaceShape(landmarks) {
-            // Measurements in normalized coordinates (0 to 1)
             const foreheadWidth = Math.abs(landmarks[10].x - landmarks[338].x);
             const cheekboneWidth = Math.abs(landmarks[234].x - landmarks[454].x);
             const jawWidth = Math.abs(landmarks[152].x - landmarks[175].x);
             const faceHeight = Math.abs(landmarks[10].y - landmarks[152].y);
             const aspectRatio = cheekboneWidth / faceHeight;
 
-            // Convert to approximate pixel values (assuming video resolution)
             const videoWidth = video.videoWidth || 640;
             const videoHeight = video.videoHeight || 480;
             const foreheadWidthPx = (foreheadWidth * videoWidth).toFixed(2);
@@ -319,7 +286,6 @@
             const jawWidthPx = (jawWidth * videoWidth).toFixed(2);
             const faceHeightPx = (faceHeight * videoHeight).toFixed(2);
 
-            // Face shape classification logic
             let faceShape = "Unknown";
             if (aspectRatio > 1.4) faceShape = "Oval";
             else if (jawWidth > cheekboneWidth * 1.15) faceShape = "Square";
@@ -343,16 +309,16 @@
 
         function applyColor(shape) {
             const colors = {
-                "Oval": "#3498db",
-                "Round": "#e74c3c",
-                "Square": "#2ecc71",
-                "Diamond": "#9b59b6",
-                "Heart": "#e67e22",
-                "Pear": "#34495e",
-                "Oblong": "#f1c40f",
-                "Unknown": "#95a5a6"
+                "Oval": "#2b6cb0",
+                "Round": "#c53030",
+                "Square": "#2f855a",
+                "Diamond": "#6b46c1",
+                "Heart": "#c05621",
+                "Pear": "#2c5282",
+                "Oblong": "#d69e2e",
+                "Unknown": "#718096"
             };
-            const color = colors[shape] || "#95a5a6";
+            const color = colors[shape] || "#718096";
             cameraBox.style.borderColor = color;
             faceShapeOutput.style.color = color;
         }
@@ -364,6 +330,9 @@
             faceHeightOutput.textContent = measurements.faceHeight;
             aspectRatioOutput.textContent = measurements.aspectRatio;
         }
+
+        // Start the application
+        initialize();
     </script>
 </body>
 </html>
